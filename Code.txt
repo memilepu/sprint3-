@@ -1,0 +1,37 @@
+create database parqueadero;
+use parqueadero;
+create table usuario(
+codigo_usu varchar(15) not null,
+correo_usu varchar(20) not null,
+celular_usu varchar(10) not null,
+nombre_usu varchar(30) not null,
+constraint usuario_pk primary key(codigo_usu));
+create table cupo(
+cupos varchar(20) not null,
+numero_cupos varchar(20) not null,
+cupos_ocupados varchar(20) not null,
+cupos_disponibles varchar(20) not null,
+cod_servicio varchar(20) not null,
+constraint cupo_pk primary key(cupos),
+constraint cupo_cod_servicio_fk foreign key(cod_servicio) references servicio_parqueadero(cod_servicio));
+create table auto(
+placa_auto varchar(7) not null,
+marca_auto varchar(15) not null,
+estado_auto varchar(30) not null,
+modelo_auto varchar(10) not null,
+constraint auto_pk primary key(placa_auto));
+create table servicio_parqueadero(
+cod_servicio varchar(20) not null,
+fecha_servicio varchar(10) not null,
+hora_ingr_servicio varchar(5) not null,
+hora_sali_servicio varchar(5) not null,
+valor_servicio varchar(10) not null,
+placa_auto varchar(7) not null,
+constraint servicio_parqueadero_pk primary key(cod_servicio),
+constraint servicio_parqueadero_placa_auto_fk foreign key(placa_auto) references auto(placa_auto));
+create table usuario_auto(
+codigo_usu varchar(15) not null,
+placa_auto varchar(7) not null,
+constraint usuario_auto_pk primary key(codigo_usu, placa_auto),
+constraint usuario_auto_codigo_usu_fk foreign key(codigo_usu) references usuario(codigo_usu),
+constraint usuario_auto_placa_auto_fk foreign key(placa_auto) references auto(placa_auto));
